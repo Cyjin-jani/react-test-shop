@@ -29,3 +29,12 @@ test('when face an error fetching datas , display errors', async () => {
   const errorBanner = await screen.findByTestId('error-banner');
   expect(errorBanner).toHaveTextContent('에러가 발생했습니다.');
 });
+
+test('fetch option datas from server', async () => {
+  render(<Type orderType="options" />);
+
+  const options = await screen.findAllByRole('checkbox');
+
+  // handlers에서 2개만 보내주므로 맞게 오는지 확인하기.
+  expect(options).toHaveLength(2);
+});
