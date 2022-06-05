@@ -1,9 +1,7 @@
+import userEvent from '@testing-library/user-event';
 import { render, screen } from '../../../test-util';
 import Type from '../Type';
-import { server } from '../../../mocks/server';
-import { rest } from 'msw';
-import userEvent from '@testing-library/user-event';
-import { OrderContextProvider } from '../../../contexts/OrderContext';
+import OrderPage from '../OrderPage';
 
 test('update products total when products quantity is changed', async () => {
   render(<Type orderType="products" />);
@@ -39,4 +37,51 @@ test('update options total when option is changed', async () => {
   });
   userEvent.click(dinnerCheckbox);
   expect(optionsTotal).toHaveTextContent('1000');
+});
+
+describe('total price of products and options', () => {
+  test('total price starts with 0 and updating total price when add one product', async () => {
+    render(<OrderPage />);
+    const total = screen.getByText('Total Price:', { exact: false });
+    expect(total).toHaveTextContent('0');
+
+    const americaInput = await screen.findByRole('spinbutton', {
+      name: 'America',
+    });
+    userEvent.clear(americaInput);
+    userEvent.type(americaInput, '1');
+
+    expect(total).toHaveTextContent('1000');
+  });
+  test('update total price when add one option', async () => {
+    render(<OrderPage />);
+    const total = screen.getByText('Total Price:', { exact: false });
+
+    const insuranceCheckbox = await screen.findByRole('checkbox', {
+      name: 'Insurance',
+    });
+
+    userEvent.click(insuranceCheckbox);
+    expect(total).toHaveTextContent('500');
+  });
+  test('update total price when remove option and product', async () => {
+    render(<OrderPage />);
+    const total = screen.getByText('Total Price:', { exact: false });
+
+    const insuranceCheckbox = await screen.findByRole('checkbox', {
+      name: 'Insurance',
+    });
+    userEvent.click(insuranceCheckbox);
+
+    const americaInput = await screen.findByRole('spinbutton', {
+      name: 'America',
+    });
+    userEvent.clear(americaInput);
+    userEvent.type(americaInput, '3');
+
+    userEvent.clear(americaInput);
+    userEvent.type(americaInput, '1');
+
+    expect(total).toHaveTextContent('1500');
+  });
 });
