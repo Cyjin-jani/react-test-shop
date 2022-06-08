@@ -38,4 +38,30 @@ test('From order to order complete page', async () => {
 
   const orderBtn = screen.getByRole('button', { name: '주문하기' });
   userEvent.click(orderBtn);
+
+  // 주문 확인 페이지 [start]
+  const summaryHeading = screen.getByRole('heading', { name: '주문 확인' });
+  expect(summaryHeading).toBeInTheDocument();
+
+  const productsHeading = screen.getByRole('heading', {
+    name: '여행상 품: 5000',
+  });
+  expect(productsHeading).toBeInTheDocument();
+
+  const optionsHeading = screen.getByRole('heading', { name: '옵션: 500' });
+  expect(optionsHeading).toBeInTheDocument();
+
+  expect(screen.getByText('2 America')).toBeInTheDocument();
+  expect(screen.getByText('3 England')).toBeInTheDocument();
+  expect(screen.getByText('Insurance')).toBeInTheDocument();
+
+  const confirmCheckbox = screen.getByRole('checkbox', {
+    name: '주문내역을 확인하셨나요?',
+  });
+  userEvent.click(confirmCheckbox);
+
+  const confirmOrderBtn = screen.getByRole('button', { name: '주문 확인' });
+  userEvent.click(confirmOrderBtn);
+
+  // 주문 확인 페이지 [end]
 });
