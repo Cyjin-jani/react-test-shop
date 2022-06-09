@@ -44,7 +44,7 @@ test('From order to order complete page', async () => {
   expect(summaryHeading).toBeInTheDocument();
 
   const productsHeading = screen.getByRole('heading', {
-    name: '여행상 품: 5000',
+    name: '여행 상품: 5000',
   });
   expect(productsHeading).toBeInTheDocument();
 
