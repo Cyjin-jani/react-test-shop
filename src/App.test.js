@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
 
@@ -83,6 +83,12 @@ test('From order to order complete page', async () => {
     name: '첫 페이지로',
   });
   userEvent.click(firstPageBtn);
+
+  // await waitFor(() => {
+  //   screen.getByRole('spinbutton', { name: 'America' });
+  // });
+  // 위 waitFor을 쓴 것과 동일한 결과.
+  await screen.findByRole('spinbutton', { name: 'America' });
 
   // 주문 완료 페이지 [end]
 });
