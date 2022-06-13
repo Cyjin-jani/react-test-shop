@@ -7,7 +7,7 @@ const CompletePage = ({ setStep }) => {
   const [orderHistory, setOrderHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [orderDatas] = useContext(OrderContext);
+  const [orderDatas, , resetOrderDatas] = useContext(OrderContext);
   useEffect(() => {
     orderCompleted(orderDatas);
   }, [orderDatas]);
@@ -40,6 +40,11 @@ const CompletePage = ({ setStep }) => {
     </tr>
   ));
 
+  const handleClick = () => {
+    resetOrderDatas();
+    setStep(0);
+  };
+
   return (
     <div style={{ textAlign: 'center' }}>
       <h2>주문이 성공했습니다.</h2>
@@ -54,7 +59,7 @@ const CompletePage = ({ setStep }) => {
         </tbody>
       </table>
       <br />
-      <button onClick={() => setStep(0)}>첫 페이지로</button>
+      <button onClick={handleClick}>첫 페이지로</button>
     </div>
   );
 };

@@ -84,6 +84,15 @@ test('From order to order complete page', async () => {
   });
   userEvent.click(firstPageBtn);
 
+  // 첫 페이지로 이동
+  // 첫 페이지 이동 시 state 리셋되는 부분을 테스트
+  // 상품가격이 0원으로 정해져있으므로 exact: true (default)가 되도록 한다.
+  const productsTotal = screen.getByText('상품 총 가격: 0');
+  expect(productsTotal).toBeInTheDocument();
+
+  const optionsTotal = screen.getByText('옵션 총 가격: 0');
+  expect(optionsTotal).toBeInTheDocument();
+
   // await waitFor(() => {
   //   screen.getByRole('spinbutton', { name: 'America' });
   // });
